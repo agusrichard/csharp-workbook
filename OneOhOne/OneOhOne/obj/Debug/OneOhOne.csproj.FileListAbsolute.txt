@@ -1,0 +1,8 @@
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\bin\Debug\OneOhOne.exe.config
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\bin\Debug\OneOhOne.exe
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\bin\Debug\OneOhOne.pdb
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\obj\Debug\OneOhOne.csproj.AssemblyReference.cache
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\obj\Debug\OneOhOne.csproj.SuggestedBindingRedirects.cache
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\obj\Debug\OneOhOne.csproj.CoreCompileInputs.cache
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\obj\Debug\OneOhOne.exe
+C:\Users\agusr\OneDrive\Dokumen\learn\csharp-workbook\OneOhOne\OneOhOne\obj\Debug\OneOhOne.pdb
