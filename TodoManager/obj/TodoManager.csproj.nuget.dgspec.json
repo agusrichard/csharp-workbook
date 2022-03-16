@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj": {}
+    "C:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj": {}
   },
   "projects": {
-    "c:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj": {
+    "C:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj",
+        "projectUniqueName": "C:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj",
         "projectName": "TodoManager",
-        "projectPath": "c:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj",
+        "projectPath": "C:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\TodoManager.csproj",
         "packagesPath": "C:\\Users\\agusr\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\obj\\",
+        "outputPath": "C:\\Users\\agusr\\OneDrive\\Dokumen\\agusrichard\\learn\\csharp-workbook\\TodoManager\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\agusr\\AppData\\Roaming\\NuGet\\NuGet.Config",
