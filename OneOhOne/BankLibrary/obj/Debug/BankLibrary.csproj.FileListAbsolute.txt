@@ -1,0 +1,6 @@
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\bin\Debug\BankLibrary.dll
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\bin\Debug\BankLibrary.pdb
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\obj\Debug\BankLibrary.csproj.AssemblyReference.cache
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\obj\Debug\BankLibrary.csproj.CoreCompileInputs.cache
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\obj\Debug\BankLibrary.dll
+C:\Users\agusr\OneDrive\Dokumen\agusrichard\learn\csharp-workbook\OneOhOne\BankLibrary\obj\Debug\BankLibrary.pdb

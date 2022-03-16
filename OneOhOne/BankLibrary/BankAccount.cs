@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneOhOne
+namespace BankLibrary
 {
     public class BankAccount
     {
@@ -15,7 +15,7 @@ namespace OneOhOne
         public string Owner { get; set; }
         public double Balance
         {
-            get { return _balance; } 
+            get { return _balance; }
         }
 
         public List<Transaction> Transactions
@@ -26,7 +26,7 @@ namespace OneOhOne
             Number = owner;
             _balance = initialBalance;
         }
-        
+
         public void MakeDeposit(double amount, string description)
         {
             this._balance += amount;

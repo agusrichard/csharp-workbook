@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OneOhOne
+namespace BankLibrary
 {
-
     public enum TransactionType
     {
         Withdraw,
@@ -31,7 +30,7 @@ namespace OneOhOne
 
         public override string ToString()
         {
-            return $"You {Type.ToString().ToLower()} with an amount of {Amount} for {Description}";
+            return $"You {Type.ToString().ToLower()} with an amount of {Amount} to {Description}";
         }
     }
 }

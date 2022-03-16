@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BankLibrary;
+using Humanizer;
 
 namespace OneOhOne
 {
@@ -12,8 +10,11 @@ namespace OneOhOne
         {
             BankAccount account = new BankAccount("Sekardayu Hana Pradiani", 100);
             account.MakeDeposit(1000, "Get my first paycheck");
-            Console.WriteLine(account.Balance);
-            account.MakeWithdraw(2000, "Buy a nice device");
+            account.MakeWithdraw(500, "Buy a new phone");
+            foreach (var t in account.Transactions)
+            {
+                Console.WriteLine(t.ToString());
+            }
         }
     }
 }
