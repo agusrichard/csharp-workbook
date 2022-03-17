@@ -37,5 +37,57 @@ namespace TodoManager.Controllers
 
             return result.AsDto();
         }
+
+        [HttpPost]
+        public ActionResult<TodoDto> Create(CreateUpdateTodoDto todo)
+        {
+            Todo newTodo = new()
+            {
+                Id = Guid.NewGuid(),
+                Name = todo.Name,
+                Description = todo.Description,
+                CreatedAt = DateTimeOffset.UtcNow
+            };
+
+            repository.CreateTodo(newTodo);
+
+            return CreatedAtAction(nameof(GetById), new { Id = newTodo.Id }, newTodo.AsDto());
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update(Guid id, CreateUpdateTodoDto todo)
+        {
+            var existingTodo = repository.GetTodo(id);
+
+            if (existingTodo is null)
+            {
+                return NotFound();
+            }
+
+            var updatedTodo = existingTodo with
+            {
+                Name = todo.Name,
+                Description = todo.Description
+            };
+
+            repository.UpdateTodo(updatedTodo);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(Guid id)
+        {
+            var existingTodo = repository.GetTodo(id);
+
+            if (existingTodo is null)
+            {
+                return NotFound();
+            }
+
+            repository.DeleteTodo(existingTodo.Id);
+
+            return NoContent();
+        }
     }
 }

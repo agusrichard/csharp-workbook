@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using TodoManager.Dtos;
 using TodoManager.Entities;
 
 namespace TodoManager.Repositories
 {
     public class InMemTodoRepository : ITodoRepository
     {
-        private readonly List<Todo> _todos = new()
+        private List<Todo> _todos = new()
         {
             new Todo
             {
@@ -39,6 +41,22 @@ namespace TodoManager.Repositories
         public Todo GetTodo(Guid id)
         {
             return _todos.Find(t => t.Id == id);
+        }
+
+        public void CreateTodo(Todo todo)
+        {
+            _todos.Add(todo);
+        }
+
+        public void UpdateTodo(Todo todo)
+        {
+            var existingTodoIndex = _todos.FindIndex(t => t.Id == todo.Id);
+            _todos[existingTodoIndex] = todo;
+        }
+
+        public void DeleteTodo(Guid id)
+        {
+            _todos = _todos.Where(t => t.Id != id).ToList();
         }
     }
 }

@@ -8,5 +8,8 @@ namespace TodoManager.Repositories
     {
         IEnumerable<Todo> GetTodos();
         Todo GetTodo(Guid id);
+        void CreateTodo(Todo todo);
+        void UpdateTodo(Todo todo);
+        void DeleteTodo(Guid id);
     }
 }
