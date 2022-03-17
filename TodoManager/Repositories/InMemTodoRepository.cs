@@ -4,7 +4,7 @@ using TodoManager.Entities;
 
 namespace TodoManager.Repositories
 {
-    public class InMemTodoRepository
+    public class InMemTodoRepository : ITodoRepository
     {
         private readonly List<Todo> _todos = new()
         {

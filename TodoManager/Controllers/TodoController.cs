@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using TodoManager.Dtos;
 using TodoManager.Entities;
 using TodoManager.Repositories;
 
@@ -11,21 +13,21 @@ namespace TodoManager.Controllers
     [Route("todos")]
     public class TodoController : ControllerBase
     {
-        private readonly InMemTodoRepository repository;
+        private readonly ITodoRepository repository;
 
-        public TodoController()
+        public TodoController(ITodoRepository repository)
         {
-            repository = new InMemTodoRepository();
+            this.repository = repository;
         }
 
         [HttpGet]
-        public IEnumerable<Todo> GetAll()
+        public IEnumerable<TodoDto> GetAll()
         {
-            return repository.GetTodos();
+            return repository.GetTodos().Select(item => item.AsDto());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Todo> GetById(Guid id)
+        public ActionResult<TodoDto> GetById(Guid id)
         {
             Todo result = repository.GetTodo(id);
             if (result is null)
@@ -33,7 +35,7 @@ namespace TodoManager.Controllers
                 return NotFound();
             }
 
-            return result;
+            return result.AsDto();
         }
     }
 }
