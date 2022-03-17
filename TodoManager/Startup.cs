@@ -11,7 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 using TodoManager.Repositories;
+using TodoManager.Settings;
 
 namespace TodoManager
 {
@@ -27,7 +32,16 @@ namespace TodoManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ITodoRepository, InMemTodoRepository>();
+
+            var mongoDbSettings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+
+            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+            services.AddSingleton<IMongoClient>(serviceProvider =>
+            {
+                return new MongoClient(mongoDbSettings.ConnectionString);
+            });
+            services.AddSingleton<ITodoRepository, MongoDbTodoRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
