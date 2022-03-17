@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using TodoManager.Entities;
@@ -19,32 +20,32 @@ namespace TodoManager.Repositories
             todoCollection = database.GetCollection<Todo>(collectionName);
         }
 
-        public void CreateTodo(Todo todo)
+        public async Task CreateTodoAsync(Todo todo)
         {
-            todoCollection.InsertOne(todo);
+            await todoCollection.InsertOneAsync(todo);
         }
 
-        public void DeleteTodo(Guid id)
-        {
-            var filter = filterBuilder.Eq(todo => todo.Id, id);
-            todoCollection.DeleteOne(filter);
-        }
-
-        public Todo GetTodo(Guid id)
+        public async Task DeleteTodoAsync(Guid id)
         {
             var filter = filterBuilder.Eq(todo => todo.Id, id);
-            return todoCollection.Find(filter).SingleOrDefault();
+            await todoCollection.DeleteOneAsync(filter);
         }
 
-        public IEnumerable<Todo> GetTodos()
+        public async Task<Todo> GetTodoAsync(Guid id)
         {
-            return todoCollection.Find(new BsonDocument()).ToList();
+            var filter = filterBuilder.Eq(todo => todo.Id, id);
+            return await todoCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public void UpdateTodo(Todo todo)
+        public async Task<IEnumerable<Todo>> GetTodosAsync()
+        {
+            return await todoCollection.Find(new BsonDocument()).ToListAsync();
+        }
+
+        public async Task UpdateTodoAsync(Todo todo)
         {
             var filter = filterBuilder.Eq(t => t.Id, todo.Id);
-            todoCollection.ReplaceOne(filter, todo);
+            await todoCollection.ReplaceOneAsync(filter, todo);
         }
     }
 }

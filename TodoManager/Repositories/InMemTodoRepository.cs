@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TodoManager.Dtos;
+using System.Threading.Tasks;
 using TodoManager.Entities;
 
 namespace TodoManager.Repositories
@@ -33,30 +33,34 @@ namespace TodoManager.Repositories
             }
         };
 
-        public IEnumerable<Todo> GetTodos()
+        public async Task<IEnumerable<Todo>> GetTodosAsync()
         {
-            return _todos;
+            return await Task.FromResult(_todos);
         }
 
-        public Todo GetTodo(Guid id)
+        public async Task<Todo> GetTodoAsync(Guid id)
         {
-            return _todos.Find(t => t.Id == id);
+            var result = _todos.Find(t => t.Id == id);
+            return await Task.FromResult(result);
         }
 
-        public void CreateTodo(Todo todo)
+        public async Task CreateTodoAsync(Todo todo)
         {
             _todos.Add(todo);
+            await Task.CompletedTask;
         }
 
-        public void UpdateTodo(Todo todo)
+        public async Task UpdateTodoAsync(Todo todo)
         {
             var existingTodoIndex = _todos.FindIndex(t => t.Id == todo.Id);
             _todos[existingTodoIndex] = todo;
+            await Task.CompletedTask;
         }
 
-        public void DeleteTodo(Guid id)
+        public async Task DeleteTodoAsync(Guid id)
         {
             _todos = _todos.Where(t => t.Id != id).ToList();
+            await Task.CompletedTask;
         }
     }
 }

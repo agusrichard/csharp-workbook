@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Authentication;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoManager.Dtos;
 using TodoManager.Entities;
@@ -21,15 +21,15 @@ namespace TodoManager.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TodoDto> GetAll()
+        public async Task<IEnumerable<TodoDto>> GetAllAsync()
         {
-            return repository.GetTodos().Select(item => item.AsDto());
+            return (await repository.GetTodosAsync()).Select(item => item.AsDto());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TodoDto> GetById(Guid id)
+        public async Task<ActionResult<TodoDto>> GetByIdAsync(Guid id)
         {
-            Todo result = repository.GetTodo(id);
+            Todo result = await repository.GetTodoAsync(id);
             if (result is null)
             {
                 return NotFound();
@@ -39,7 +39,7 @@ namespace TodoManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TodoDto> Create(CreateUpdateTodoDto todo)
+        public async Task<ActionResult<TodoDto>> CreateAsync(CreateUpdateTodoDto todo)
         {
             Todo newTodo = new()
             {
@@ -49,15 +49,15 @@ namespace TodoManager.Controllers
                 CreatedAt = DateTimeOffset.UtcNow
             };
 
-            repository.CreateTodo(newTodo);
+            await repository.CreateTodoAsync(newTodo);
 
-            return CreatedAtAction(nameof(GetById), new { Id = newTodo.Id }, newTodo.AsDto());
+            return CreatedAtAction(nameof(GetByIdAsync), new { Id = newTodo.Id }, newTodo.AsDto());
         }
 
         [HttpPut("{id}")]
-        public ActionResult Update(Guid id, CreateUpdateTodoDto todo)
+        public async Task<ActionResult> UpdateAsync(Guid id, CreateUpdateTodoDto todo)
         {
-            var existingTodo = repository.GetTodo(id);
+            var existingTodo = await repository.GetTodoAsync(id);
 
             if (existingTodo is null)
             {
@@ -70,22 +70,22 @@ namespace TodoManager.Controllers
                 Description = todo.Description
             };
 
-            repository.UpdateTodo(updatedTodo);
+            await repository.UpdateTodoAsync(updatedTodo);
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(Guid id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            var existingTodo = repository.GetTodo(id);
+            var existingTodo = await repository.GetTodoAsync(id);
 
             if (existingTodo is null)
             {
                 return NotFound();
             }
 
-            repository.DeleteTodo(existingTodo.Id);
+            await repository.DeleteTodoAsync(existingTodo.Id);
 
             return NoContent();
         }

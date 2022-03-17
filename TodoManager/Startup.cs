@@ -43,7 +43,10 @@ namespace TodoManager
             });
             services.AddSingleton<ITodoRepository, MongoDbTodoRepository>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.SuppressAsyncSuffixInActionNames = false;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoManager", Version = "v1" });
