@@ -34,6 +34,10 @@ namespace TodoManager
         {
 
             var mongoDbSettings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+            mongoDbSettings.Username = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_USERNAME");
+            mongoDbSettings.Password = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_PASSWORD");
+            mongoDbSettings.Host = Environment.GetEnvironmentVariable("MONGODB_HOST");
+            mongoDbSettings.Port = Convert.ToInt16(Environment.GetEnvironmentVariable("MONGODB_PORT"));
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
@@ -61,9 +65,8 @@ namespace TodoManager
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TodoManager v1"));
+                app.UseHttpsRedirection();
             }
-
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 

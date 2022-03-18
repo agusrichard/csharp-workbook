@@ -1,0 +1,35 @@
+version: '3'
+services:
+  todomanager:
+    image: todomanager
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8000:80
+    depends_on:
+      - database
+    networks:
+      - todomanager
+    env_file:
+      - ".env"
+  database:
+    image: 'mongo'
+    container_name: 'mongodb'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - todomanager
+    env_file:
+      - ".env"
+volumes:
+  mongodb:
+    driver: local
+networks:
+  todomanager:
+    driver: bridge
