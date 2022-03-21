@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TodoManager.Models
 {
-    public class Todo
+    public record Todo
     {
         public int Id { get; set; }
         [Required]

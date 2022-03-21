@@ -1,5 +1,5 @@
 using TodoManager.Dtos;
-using TodoManager.Entities;
+using TodoManager.Models;
 
 namespace TodoManager
 {

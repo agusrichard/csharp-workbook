@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoManager.Entities;
-using TodoManager;
+using TodoManager.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TodoManager.Repositories
 {
@@ -14,29 +13,36 @@ namespace TodoManager.Repositories
         {
             this.context = context;
         }
+
         public async Task CreateTodoAsync(Todo todo)
         {
-            await context.AddAsync(todo);
+            await context.Todos.AddAsync(todo);
+            await context.SaveChangesAsync();
         }
 
-        public Task DeleteTodoAsync(Guid id)
+        public async Task DeleteTodoAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await context.Todos.SingleOrDefaultAsync(t => t.Id == id);
+            context.Remove(result);
+            await context.SaveChangesAsync();
         }
 
-        public Task<Todo> GetTodoAsync(Guid id)
+        public async Task<Todo> GetTodoAsync(int id)
         {
-            throw new NotImplementedException();
+            return await context.Todos.SingleOrDefaultAsync(t => t.Id == id);
         }
 
-        public Task<IEnumerable<Todo>> GetTodosAsync()
+        public async Task<IEnumerable<Todo>> GetTodosAsync()
         {
-            throw new NotImplementedException();
+            return await context.Todos.ToListAsync();
         }
 
-        public Task UpdateTodoAsync(Todo todo)
+        public async Task UpdateTodoAsync(Todo todo)
         {
-            throw new NotImplementedException();
+            var result = await context.Todos.SingleOrDefaultAsync(t => t.Id == todo.Id);
+            result.Name = todo.Name;
+            result.Description = todo.Description;
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoManager.Dtos;
-using TodoManager.Entities;
+using TodoManager.Models;
 using TodoManager.Repositories;
 
 namespace TodoManager.Controllers
@@ -27,7 +27,7 @@ namespace TodoManager.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TodoDto>> GetByIdAsync(Guid id)
+        public async Task<ActionResult<TodoDto>> GetByIdAsync(int id)
         {
             Todo result = await repository.GetTodoAsync(id);
             if (result is null)
@@ -43,7 +43,6 @@ namespace TodoManager.Controllers
         {
             Todo newTodo = new()
             {
-                Id = Guid.NewGuid(),
                 Name = todo.Name,
                 Description = todo.Description,
                 CreatedAt = DateTimeOffset.UtcNow
@@ -55,7 +54,7 @@ namespace TodoManager.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateAsync(Guid id, CreateUpdateTodoDto todo)
+        public async Task<ActionResult> UpdateAsync(int id, CreateUpdateTodoDto todo)
         {
             var existingTodo = await repository.GetTodoAsync(id);
 
@@ -76,7 +75,7 @@ namespace TodoManager.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult> Delete(int id)
         {
             var existingTodo = await repository.GetTodoAsync(id);
 

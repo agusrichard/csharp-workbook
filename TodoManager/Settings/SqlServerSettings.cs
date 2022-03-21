@@ -12,7 +12,7 @@ namespace TodoManager.Settings
         {
             get
             {
-                return $"Server={Host},{Port};Database={Name};User Id={Username}Password={Password};";
+                return $"Server={Host},{Port};Database={Name};User Id={Username};Password={Password};";
             }
         }
     }

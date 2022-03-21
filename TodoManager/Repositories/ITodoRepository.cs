@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoManager.Entities;
+using TodoManager.Models;
 
 namespace TodoManager.Repositories
 {
     public interface ITodoRepository
     {
         Task<IEnumerable<Todo>> GetTodosAsync();
-        Task<Todo> GetTodoAsync(Guid id);
+        Task<Todo> GetTodoAsync(int id);
         Task CreateTodoAsync(Todo todo);
         Task UpdateTodoAsync(Todo todo);
-        Task DeleteTodoAsync(Guid id);
+        Task DeleteTodoAsync(int id);
     }
 }
