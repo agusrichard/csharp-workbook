@@ -1,32 +1,32 @@
 version: '3'
 services:
-  todomanager:
-    image: todomanager
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 8000:80
-    depends_on:
-      - database
-    networks:
-      - todomanager
-    env_file:
-      - ".env"
-  database:
-    image: 'mongo'
-    container_name: 'mongodb'
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
-    volumes:
-      - mongodb:/data/db
-    ports:
-      - '27017:27017'
-    networks:
-      - todomanager
-    env_file:
-      - ".env"
+  # todomanager:
+  #   image: todomanager
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 8000:80
+  #   depends_on:
+  #     - database
+  #   networks:
+  #     - todomanager
+  #   env_file:
+  #     - ".env"
+  # database:
+  #   image: 'mongo'
+  #   container_name: 'mongodb'
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+  #     - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+  #   volumes:
+  #     - mongodb:/data/db
+  #   ports:
+  #     - '27017:27017'
+  #   networks:
+  #     - todomanager
+  #   env_file:
+  #     - ".env"
   # database:
   #   image: 'mongo'
   #   container_name: 'mongodb'
@@ -39,8 +39,19 @@ services:
   #     - '27017:27017'
   #   env_file:
   #     - ".env"
+  database:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - ".env"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    ports:
+      - '1431:1433'
 volumes:
-  mongodb:
+  sqlvolume:
     driver: local
 networks:
   todomanager:

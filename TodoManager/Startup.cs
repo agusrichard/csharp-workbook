@@ -6,14 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Driver;
+using TodoManager.Models;
 using TodoManager.Repositories;
 using TodoManager.Settings;
 
@@ -32,19 +30,34 @@ namespace TodoManager
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var mongoDbSettings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
-            mongoDbSettings.Username = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_USERNAME");
-            mongoDbSettings.Password = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_PASSWORD");
-            mongoDbSettings.Host = Environment.GetEnvironmentVariable("MONGODB_HOST");
-            mongoDbSettings.Port = Convert.ToInt16(Environment.GetEnvironmentVariable("MONGODB_PORT"));
+            // var mongoDbSettings = Configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+            // mongoDbSettings.Username = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_USERNAME");
+            // mongoDbSettings.Password = Environment.GetEnvironmentVariable("MONGO_INITDB_ROOT_PASSWORD");
+            // mongoDbSettings.Host = Environment.GetEnvironmentVariable("MONGODB_HOST");
+            // mongoDbSettings.Port = Convert.ToInt16(Environment.GetEnvironmentVariable("MONGODB_PORT"));
 
-            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-            BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-            services.AddSingleton<IMongoClient>(serviceProvider =>
+            // BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+            // BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
+            // services.AddSingleton<IMongoClient>(serviceProvider =>
+            // {
+            //     return new MongoClient(mongoDbSettings.ConnectionString);
+            // });
+            // services.AddSingleton<ITodoRepository, MongoDbTodoRepository>();
+
+            // services.AddHealthChecks()
+            //     .AddMongoDb(
+            //         mongoDbSettings.ConnectionString,
+            //         name: "mongodb",
+            //         timeout: TimeSpan.FromSeconds(3),
+            //         tags: new[] { "ready" });
+
+            var dbSettings = Configuration.GetSection(nameof(DbSettings)).Get<DbSettings>();
+
+            services.AddDbContext<TodoContext>(opt =>
             {
-                return new MongoClient(mongoDbSettings.ConnectionString);
+                opt.UseSqlServer(dbSettings.DbConnectionString);
             });
-            services.AddSingleton<ITodoRepository, MongoDbTodoRepository>();
+            services.AddScoped<ITodoRepository, SqlServerTodoRepository>();
 
             services.AddControllers(options =>
             {
@@ -56,11 +69,12 @@ namespace TodoManager
             });
 
             services.AddHealthChecks()
-                .AddMongoDb(
-                    mongoDbSettings.ConnectionString,
-                    name: "mongodb",
+                .AddSqlServer(
+                    dbSettings.DbConnectionString,
+                    name: "sqlserver",
                     timeout: TimeSpan.FromSeconds(3),
-                    tags: new[] { "ready" });
+                    tags: new[] { "ready" }
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
