@@ -10,5 +10,6 @@ namespace SchoolApi.Models
         public DateTime BirthDate { get; set; }
 
         public IList<StudentCourse> StudentCourses { get; set; }
+        public Address Address { get; set; }
     }
 }

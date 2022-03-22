@@ -4,6 +4,11 @@ namespace SchoolApi.Models
 {
     public class SchoolContext : DbContext
     {
+        public SchoolContext(DbContextOptions<SchoolContext> options)
+            : base(options)
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<StudentCourse>().HasKey(sc => new { sc.StudentId, sc.CourseId });

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SchoolApi.Models;
+using SchoolApi.Repositories;
 using SchoolApi.Settings;
 
 namespace SchoolApi
@@ -39,6 +40,7 @@ namespace SchoolApi
                 opt.UseSqlServer(dbSettings.DbConnectionString);
             });
 
+            services.AddScoped<IStudentRepository, StudentRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
