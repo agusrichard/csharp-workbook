@@ -1,0 +1,30 @@
+version: '3'
+services:
+  # schoolapi:
+  #   image: schoolapi
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   ports:
+  #     - 8000:80
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - schoolapi
+  #   env_file:
+  #     - ".env"
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: schoolapi-database
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - ".env"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    ports:
+      - '1431:1433'
+volumes:
+  sqlvolume:
+    driver: local
