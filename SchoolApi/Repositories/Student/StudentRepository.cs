@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SchoolApi.Models;
@@ -23,14 +24,22 @@ namespace SchoolApi.Repositories
         public async Task Delete(int id)
         {
             var result = await GetById(id);
-
+            var resultAddress = await context.Addresses.FirstOrDefaultAsync(a => a.Id == result.AddressId);
             context.Students.Remove(result);
+            context.Addresses.Remove(resultAddress);
             await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Student>> Get()
         {
-            return await context.Students.ToListAsync();
+            return await context.Students.Select(s => new Student
+            {
+                Address = context.Addresses.FirstOrDefault(a => a.Id == s.AddressId),
+                Id = s.Id,
+                Name = s.Name,
+                AddressId = s.AddressId,
+                BirthDate = s.BirthDate,
+            }).ToListAsync();
         }
 
         public async Task<Student> GetById(int id)
@@ -41,6 +50,9 @@ namespace SchoolApi.Repositories
                 throw new KeyNotFoundException($"No student with id {id} found");
             }
 
+            var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == result.AddressId);
+            result.Address = address;
+
             return result;
         }
 
@@ -48,6 +60,11 @@ namespace SchoolApi.Repositories
         {
             var result = await GetById(student.Id);
             result.Name = student.Name;
+            result.BirthDate = student.BirthDate;
+            result.Address.Detail = student.Address.Detail;
+            result.Address.City = student.Address.City;
+            result.Address.State = student.Address.State;
+            result.Address.Country = student.Address.Country;
             await context.SaveChangesAsync();
         }
     }
