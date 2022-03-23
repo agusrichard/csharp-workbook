@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace SchoolApi.Models
 {
@@ -8,6 +8,7 @@ namespace SchoolApi.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        [JsonIgnore]
         public int TeacherId { get; set; }
         [JsonIgnore]
         public Teacher Teacher { get; set; }

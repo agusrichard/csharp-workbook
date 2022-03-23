@@ -39,6 +39,7 @@ namespace SchoolApi
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IStudentCourseRepository, StudentCourseRepository>();
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

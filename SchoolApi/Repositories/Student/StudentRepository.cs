@@ -32,14 +32,23 @@ namespace SchoolApi.Repositories
 
         public async Task<IEnumerable<Student>> Get()
         {
-            return await context.Students.Select(s => new Student
+            var students = await context.Students.ToListAsync();
+            for (var i = 0; i < students.Count; i++)
             {
-                Address = context.Addresses.FirstOrDefault(a => a.Id == s.AddressId),
-                Id = s.Id,
-                Name = s.Name,
-                AddressId = s.AddressId,
-                BirthDate = s.BirthDate,
-            }).ToListAsync();
+                var studentCourses = context.StudentCourses
+                    .Where(sc => sc.StudentId == students[i].Id)
+                    .Select(sc => new StudentCourse
+                    {
+                        CourseId = sc.CourseId,
+                        StudentId = sc.StudentId,
+                        Course = context.Courses.FirstOrDefault(csc => csc.Id == sc.CourseId)
+                    })
+                    .ToList();
+                students[i].Address = context.Addresses.FirstOrDefault(a => a.Id == students[i].AddressId);
+                students[i].Courses = studentCourses.Select(sc => sc.Course).ToList();
+            }
+
+            return await Task.FromResult<IEnumerable<Student>>(students);
         }
 
         public async Task<Student> GetById(int id)
@@ -49,9 +58,19 @@ namespace SchoolApi.Repositories
             {
                 throw new KeyNotFoundException($"No student with id {id} found");
             }
+            var studentCourses = context.StudentCourses
+                   .Where(sc => sc.StudentId == result.Id)
+                   .Select(sc => new StudentCourse
+                   {
+                       CourseId = sc.CourseId,
+                       StudentId = sc.StudentId,
+                       Course = context.Courses.FirstOrDefault(csc => csc.Id == sc.CourseId)
+                   })
+                   .ToList();
 
             var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == result.AddressId);
             result.Address = address;
+            result.Courses = studentCourses.Select(sc => sc.Course).ToList();
 
             return result;
         }
