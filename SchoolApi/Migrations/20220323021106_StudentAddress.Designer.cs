@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolApi.Models;
 
 namespace SchoolApi.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20220323021106_StudentAddress")]
+    partial class StudentAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,7 +40,13 @@ namespace SchoolApi.Migrations
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StudentId")
+                        .IsUnique();
 
                     b.ToTable("Addresses");
                 });
@@ -73,9 +81,6 @@ namespace SchoolApi.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
@@ -83,10 +88,6 @@ namespace SchoolApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique()
-                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.ToTable("Students");
                 });
@@ -121,6 +122,17 @@ namespace SchoolApi.Migrations
                     b.ToTable("Teachers");
                 });
 
+            modelBuilder.Entity("SchoolApi.Models.Address", b =>
+                {
+                    b.HasOne("SchoolApi.Models.Student", "Student")
+                        .WithOne("Address")
+                        .HasForeignKey("SchoolApi.Models.Address", "StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("SchoolApi.Models.Course", b =>
                 {
                     b.HasOne("SchoolApi.Models.Teacher", "Teacher")
@@ -128,15 +140,6 @@ namespace SchoolApi.Migrations
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("SchoolApi.Models.Student", b =>
-                {
-                    b.HasOne("SchoolApi.Models.Address", "Address")
-                        .WithOne("Student")
-                        .HasForeignKey("SchoolApi.Models.Student", "AddressId");
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("SchoolApi.Models.StudentCourse", b =>
@@ -158,11 +161,6 @@ namespace SchoolApi.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SchoolApi.Models.Address", b =>
-                {
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("SchoolApi.Models.Course", b =>
                 {
                     b.Navigation("StudentCourses");
@@ -170,6 +168,8 @@ namespace SchoolApi.Migrations
 
             modelBuilder.Entity("SchoolApi.Models.Student", b =>
                 {
+                    b.Navigation("Address");
+
                     b.Navigation("StudentCourses");
                 });
 

@@ -7,23 +7,24 @@ using SchoolApi.Repositories;
 namespace SchoolApi.Controllers
 {
     [ApiController]
-    [Route("students")]
-    public class StudentController : ControllerBase
+    [Route("addresses")]
+    public class AddressController : ControllerBase
     {
-        private readonly IStudentRepository repository;
-        public StudentController(IStudentRepository repository)
+        private readonly IAddressRepository repository;
+
+        public AddressController(IAddressRepository repository)
         {
             this.repository = repository;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Student>> Get()
+        public async Task<IEnumerable<Address>> Get()
         {
             return await repository.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetById(int id)
+        public async Task<ActionResult<Address>> GetById(int id)
         {
             try
             {
@@ -31,7 +32,6 @@ namespace SchoolApi.Controllers
             }
             catch (KeyNotFoundException)
             {
-
                 return NotFound();
             }
             catch (System.Exception)
@@ -41,22 +41,21 @@ namespace SchoolApi.Controllers
             }
         }
 
-
         [HttpPost]
-        public async Task<ActionResult<Student>> Create(Student student)
+        public async Task<ActionResult<Address>> Create(Address address)
         {
-            await repository.Create(student);
+            await repository.Create(address);
 
-            return CreatedAtAction(nameof(GetById), new { Id = student.Id }, student);
+            return CreatedAtAction(nameof(GetById), new { Id = address.Id }, address);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Update(int id, Student student)
+        public async Task<ActionResult> Update(int id, Address address)
         {
             try
             {
-                student.Id = id;
-                await repository.Update(student);
+                address.Id = id;
+                await repository.Update(address);
                 return NoContent();
             }
             catch (KeyNotFoundException)

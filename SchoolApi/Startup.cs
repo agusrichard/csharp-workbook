@@ -41,6 +41,7 @@ namespace SchoolApi
             });
 
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

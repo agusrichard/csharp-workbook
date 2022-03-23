@@ -18,5 +18,6 @@ namespace SchoolApi.Models
         public DbSet<Course> Courses { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<StudentCourse> StudentCourses { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

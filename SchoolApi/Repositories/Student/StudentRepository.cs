@@ -22,11 +22,7 @@ namespace SchoolApi.Repositories
 
         public async Task Delete(int id)
         {
-            var result = await context.Students.FirstOrDefaultAsync(s => s.Id == id);
-            if (result == null)
-            {
-                throw new KeyNotFoundException($"No student with id {id} found");
-            }
+            var result = await GetById(id);
 
             context.Students.Remove(result);
             await context.SaveChangesAsync();
